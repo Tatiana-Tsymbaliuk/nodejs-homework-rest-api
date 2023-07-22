@@ -26,8 +26,6 @@ router.get('/:contactId', async (req, res, next) => {
     const {contactId} = req.params;
     const result = await contactsService.getContactById(contactId)
     if (!result){
-      // const error = new Error(`Contact with ${contactId} not found`);
-      // error.status = 404;
       throw HttpError(404, `Not found` );
     }
     res.json(result);
@@ -84,5 +82,4 @@ router.put('/:contactId', async (req, res, next) => {
     next(error); 
   }
 })
-
 module.exports = router
