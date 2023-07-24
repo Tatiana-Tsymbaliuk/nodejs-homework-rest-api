@@ -1,6 +1,6 @@
 const {HttpError} = require('../helpers');
 
-const validateBody = shema => {
+const validateBody = (shema )=> {
         const func = (req, res, next)=>{
                 const { error }=shema.validate(req.body);
                 if (Object.keys(req.body).length === 0) {
