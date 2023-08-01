@@ -1,6 +1,6 @@
 const {Schema, model} = require("mongoose");
-const { handleSaveError, handleUpdateValidate }  = require("./hooks");
-// const { handleSaveError }  = require("./hooks");
+// const { handleSaveError, handleUpdateValidate }  = require("./hooks");
+const hendleMongooseError = require('../helpers/hendelMongooseError')
 
 const Joi = require('joi');
 const contactSchema = new Schema(
@@ -21,18 +21,18 @@ const contactSchema = new Schema(
                 },
               }, {versionKey: false, timestamps: true}
 );
-contactSchema.pre("findOneAndUpdate", handleUpdateValidate );
+// contactSchema.pre("findOneAndUpdate", handleUpdateValidate );
 
-contactSchema.post("findOneAndUpdate", handleSaveError );
+// contactSchema.post("findOneAndUpdate", handleSaveError );
 
-contactSchema.post("save", handleSaveError );
+contactSchema.post("save", hendleMongooseError );
 
 const Contact = model("contact", contactSchema);
 
 const contactAddShema = Joi.object({
-        name: Joi.string().required().messages({"any.required": `missing required name field`,}),
-        email: Joi.string().required().messages({"any.required": `missing required email fiel`,}),
-        phone: Joi.string().required().messages({"any.required": `missing required phone fiel`,}),
+        name: Joi.string().required().messages({"any.required": `missing required name field`}),
+        email: Joi.string().required().messages({"any.required": `missing required email fiel`}),
+        phone: Joi.string().required().messages({"any.required": `missing required phone fiel`}),
         favorite: Joi.boolean().messages(),
 });
 

@@ -1,6 +1,6 @@
 
 const { Contact } = require('../models/contact');
-const { ctrlWrapper, HttpError } = require('../helpers')
+const { ctrlWrapper, HttpError } = require('../helpers');
 
 
 
@@ -32,7 +32,7 @@ const deleteById = async (req, res) => {
        }
 const updeteById = async (req, res) => {
         if (Object.keys(req.body).length === 0) {
-        throw HttpError(400, "missing fields");
+        throw HttpError(400, `missing fields`);
               }
           const { id } = req.params;
           const result = await Contact.findByIdAndUpdate(id, req.body, {new: true});
@@ -44,7 +44,7 @@ const updeteById = async (req, res) => {
 
 const updateFavorite = async (req, res) => {
   if (Object.keys(req.body).length === 0) {
-  throw HttpError(400, "missing field favorite");
+  throw HttpError(400, `missing field favorite`);
         }
     const { id } = req.params;
     const result = await Contact.findByIdAndUpdate(id, req.body, {new: true});
