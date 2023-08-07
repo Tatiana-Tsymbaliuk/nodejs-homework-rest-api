@@ -27,13 +27,13 @@ const userSchema = new Schema({
 userSchema.post("save", hendleMongooseError );
 
 const registerSchema = Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required(),
+        email: Joi.string().required().messages({"any.required": `missing required email field`}),
+        password: Joi.string().required().messages({"any.required": `missing required password field`}),
 });
 
 const loginSchema = Joi.object({
-        email: Joi.string().required(),
-        password: Joi.string().required(),
+        email: Joi.string().required().messages({"any.required": `missing required email field`}),
+        password: Joi.string().required().messages({"any.required": `missing required password field`}),
 });
 
 const schemas = {

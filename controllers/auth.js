@@ -18,8 +18,10 @@ const hashPassword = await bcrypt.hash(password, 10);
 const newUser = await User.create({...req.body, password: hashPassword});
 
 res.status(201).json({
-        email: newUser.email,
-        name: newUser.name,
+        user: {
+                email: newUser.email,
+                subscription: newUser.subscription,
+        },
 })
 }
 
@@ -60,7 +62,7 @@ const logout = async (req, res) => {
 const {_id} = req.user;
 await User.findByIdAndUpdate(_id, {token: ""});
 
-res.json({
+res.status(204).json({
         message: "Logout success"
 })
 }
