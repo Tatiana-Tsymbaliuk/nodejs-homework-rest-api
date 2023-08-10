@@ -22,8 +22,10 @@ if(user){
 }
 
 const hashPassword = await bcrypt.hash(password, 10);
-const avatarUrl = gravatar.url(email);
-const newUser = await User.create({...req.body, password: hashPassword, avatarUrl});
+const avatarURL = gravatar.url(email);
+
+const newUser = await User.create({...req.body, password: hashPassword, avatarURL});
+
 
 res.status(201).json({
         user: {
