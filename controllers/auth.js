@@ -33,11 +33,11 @@ const verifyEmail = {
         subject: "Verify email",
         html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Click to verify email</a>`
 }
-// try {
+try {
 await sendEmail(verifyEmail);
-// } catch(error){
-//         console.log(error);
-// }
+} catch(error){
+        console.log(error);
+}
 
 
 res.status(201).json({
