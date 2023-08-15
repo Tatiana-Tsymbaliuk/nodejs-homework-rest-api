@@ -14,7 +14,7 @@ const { SECRET_KEY, BASE_URL } = process.env;
 
 const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
-const register = async(req, res) =>{
+const register = async(req, res) => {
 const {email, password} = req.body;
 const user = await User.findOne({email});
 if(user){
@@ -33,11 +33,11 @@ const verifyEmail = {
         subject: "Verify email",
         html: `<a target="_blank" href="${BASE_URL}/users/verify/${verificationToken}">Click to verify email</a>`
 }
-try {
+// try {
 await sendEmail(verifyEmail);
-} catch(error){
-        console.log(error);
-}
+// } catch(error){
+//         console.log(error);
+// }
 
 
 res.status(201).json({
@@ -48,16 +48,16 @@ res.status(201).json({
 })
 }
 
-const verify = async(req, res) =>{
-        const {verificationToken} = req.params;
+const verify = async(req, res) => {
+        const { verificationToken } = req.params;
         const user = await User.findOne({verificationToken});
         if(!user){
             throw HttpError(404, "User not found");
         } 
-        await User.findByIdAndUpdate(user._id, {verify: true, verificationToken: ""});
+        await User.findByIdAndUpdate(user._id, {verify: true, verificationToken: null});
 
         res.json({
-                message: "Email verify success"
+                message: "Verification successful"
             })
 }
 
@@ -65,9 +65,9 @@ const resendVerify = async(req, res) =>{
     const {email} = req.body;
     const user = await User.findOne({email});
     if(!user){
-        throw HttpError(400,"missing required field email")
+        throw HttpError(400, "missing required field email")
     }
-    if(user.verify) {
+    if(user.verify){
         throw HttpError(400, "Verification has already been passed")
     }
 
@@ -88,12 +88,12 @@ const resendVerify = async(req, res) =>{
 const login = async(req, res)=>{
 const {email, password} = req.body;
 const user = await User.findOne({email});
-if(!user){
+if(!user) {
         throw HttpError(401, "Email or password is wrong");
 }
 
-if(!user.verify){
-        throw HttpError(404, "User not found")  
+if(!user.verify) {
+        throw HttpError(401, "email is not verified"); 
 }
 const passwordCompare = await bcrypt.compare(password, user.password);
 
